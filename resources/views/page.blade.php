@@ -6,16 +6,16 @@
 <h2>First section</h2>
 
 <label>
-    <input type="number" id="input_1">
+    <input type="number" id="number-1">
 </label>
 
 <label>
-    <input type="number" id="input_2">
+    <input type="number" id="number-2">
 </label>
 
-<button id="button">Count</button>
+<button id="count">Count</button>
 
-<p id="result"></p>
+<p>Result: <span id="result"></span></p>
 
 <hr>
 
@@ -24,6 +24,21 @@
 
 <script>
     $(function() {
-        console.log( "ready!" );
+        $('#count').on('click', function() {
+            let firstInputVal = parseInt($('#number-1').val());
+            let secondInputVal = parseInt($('#number-2').val());
+
+            if(!Number.isInteger(firstInputVal)) {
+                firstInputVal = 0;
+            }
+
+            if(!Number.isInteger(secondInputVal)) {
+                secondInputVal = 0;
+            }
+
+           $('#result').text(firstInputVal + secondInputVal);
+        });
+
+
     });
 </script>
