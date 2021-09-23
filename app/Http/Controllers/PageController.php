@@ -10,8 +10,10 @@ class PageController extends Controller
 {
     public function index()
     {
+        //Redis::del('second_section:texts');
+
         return view('page', [
-            'texts' => $this->sortByPosition(json_decode(Redis::get('second_section:texts'), true))
+            'texts' => $this->sortByPosition(json_decode(Redis::get('second_section:texts'), true), true)
         ]);
     }
 
@@ -31,7 +33,7 @@ class PageController extends Controller
         else {
             $texts = json_decode($texts, true);
 
-            $lastPosition = $this->sortByPosition($texts)[0]['position'];
+            $lastPosition = $this->sortByPosition($texts, false)[0]['position'];
 
             $texts[] = ['content' => $text, 'position' => $lastPosition + 1];
 
@@ -42,15 +44,22 @@ class PageController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-    private function sortByPosition(?array $texts)
+    private function sortByPosition(?array $texts, bool $asc)
     {
         if(!$texts) {
             return [];
         }
 
-        usort($texts, function($a, $b) {
-            return ($a['position'] < $b['position']) ? 1 : -1;
-        });
+        if($asc) {
+            usort($texts, function($a, $b) {
+                return ($a['position'] > $b['position']) ? 1 : -1;
+            });
+        }
+        else {
+            usort($texts, function($a, $b) {
+                return ($a['position'] < $b['position']) ? 1 : -1;
+            });
+        }
 
         return $texts;
     }

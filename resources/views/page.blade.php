@@ -64,19 +64,17 @@
             if(contentVal) {
                 let actualTextSpan = $('#actual-text');
 
-                if(actualTextSpan.text()) {
-                    let prependedText = $('#appended-text')
-                    prependedText.prepend('<p>' + actualTextSpan.text() + '</p>')
-                }
+                let prependedText = $('#appended-text')
+                prependedText.append('<p>' + contentVal + '</p>')
 
                 actualTextSpan.text(contentVal);
-            }
 
-            $.ajax({
-                url: '/page/save-text',
-                method: 'post',
-                data: {'text': contentVal},
-            });
+                $.ajax({
+                    url: '/page/save-text',
+                    method: 'post',
+                    data: {'text': contentVal},
+                });
+            }
         });
     });
 </script>
