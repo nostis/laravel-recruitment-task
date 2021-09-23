@@ -11,7 +11,7 @@ class PageController extends Controller
     public function index()
     {
         return view('page', [
-            'text' => Redis::get('second_section:texts')
+            'texts' => $this->sortByPosition(json_decode(Redis::get('second_section:texts'), true))
         ]);
     }
 
@@ -31,7 +31,7 @@ class PageController extends Controller
         else {
             $texts = json_decode($texts, true);
 
-            $lastPosition = $this->getLastPosition($texts);
+            $lastPosition = $this->sortByPosition($texts)[0]['position'];
 
             $texts[] = ['content' => $text, 'position' => $lastPosition + 1];
 
@@ -42,16 +42,12 @@ class PageController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-    private function getLastPosition(array $texts): int
+    private function sortByPosition(array $texts)
     {
-        if(count($texts)) {
-            usort($texts, function($a, $b) {
-                return ($a['position'] < $b['position']) ? 1 : -1;
-            });
+        usort($texts, function($a, $b) {
+            return ($a['position'] < $b['position']) ? 1 : -1;
+        });
 
-            return $texts[0]['position'];
-        }
-
-        return 0;
+        return $texts;
     }
 }
