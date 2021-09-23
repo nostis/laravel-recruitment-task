@@ -42,8 +42,12 @@ class PageController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-    private function sortByPosition(array $texts)
+    private function sortByPosition(?array $texts)
     {
+        if(!$texts) {
+            return [];
+        }
+
         usort($texts, function($a, $b) {
             return ($a['position'] < $b['position']) ? 1 : -1;
         });
