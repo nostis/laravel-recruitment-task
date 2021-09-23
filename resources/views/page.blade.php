@@ -20,7 +20,17 @@
 <hr>
 
 <h2>Second section</h2>
-<p>Second section</p>
+
+<label for="content">
+    <input id="content">
+</label>
+
+<button id="add-text">Add text</button>
+
+<p>Actual: <span id="actual-text"></span></p>
+<div id="appended-text">
+
+</div>
 
 <script>
     $(function() {
@@ -39,6 +49,19 @@
            $('#result').text(firstInputVal + secondInputVal);
         });
 
+        $('#add-text').on('click', function() {
+            let contentVal = $('#content').val();
 
+            if(contentVal) {
+                let actualTextSpan = $('#actual-text');
+
+                if(actualTextSpan.text()) {
+                    let prependedText = $('#appended-text')
+                    prependedText.prepend('<p>' + actualTextSpan.text() + '</p>')
+                }
+
+                actualTextSpan.text(contentVal);
+            }
+        });
     });
 </script>
