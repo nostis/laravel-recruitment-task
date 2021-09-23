@@ -30,10 +30,10 @@
 
 <p>Actual: <span id="actual-text"></span></p>
 <div id="appended-text">
-
+    @foreach ($texts as $text)
+        <p>{{ $text['content'] }} {{$text['position']}}</p>
+    @endforeach
 </div>
-
-<div>{{ $text }}</div>
 
 <script>
     $(function() {
