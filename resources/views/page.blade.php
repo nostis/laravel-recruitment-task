@@ -31,7 +31,7 @@
 <p>Actual: <span id="actual-text"></span></p>
 <div id="appended-text">
     @foreach ($texts as $text)
-        <p>{{ $text['content'] }} {{$text['position']}}</p>
+        <p>{{ $text['content'] }}</p>
     @endforeach
 </div>
 
